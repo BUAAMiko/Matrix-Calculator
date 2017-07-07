@@ -1,5 +1,6 @@
 package com.buaa.jj.matrixcalculator;
 
+import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,13 +33,14 @@ public class MainActivity extends AppCompatActivity
 
         }
     };
+    Intent MCService;
     MatrixCalculator binder;
-    Intent MCService=new Intent(MainActivity.this,MatrixCalculator.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MCService=new Intent(MainActivity.this,MatrixCalculator.class);
         startService(MCService);
-        bindService(MCService,conn,BIND_AUTO_CREATE);
+        bindService(MCService,conn, BIND_AUTO_CREATE);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -106,6 +110,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
+            fragment_matrixlist f=new fragment_matrixlist();
+            getFragmentManager().beginTransaction().replace(R.id.fragment_place,f).commit();
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -114,13 +120,20 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
-
+            int[][] n=new int[1][1];
+            n[0][0]=1;
+            binder.createMatrix(1,1,n,"1");
+            System.out.println(binder.fun());
         } else if (id == R.id.nav_send) {
-
+            binder.removeMatrix(0);
+            System.out.println(""+binder.fun()+"");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public MatrixCalculator getService(){
+        return binder;
     }
 }

@@ -8,8 +8,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 public class MatrixCalculator extends Service {
     MyBinder binder=new MyBinder();
-    private LinkedList<Queue<Matrix>> MList;
-    private Queue<Matrix> deletedMatrix;
+    private LinkedList<Matrix> MList;
+    private Matrix deletedMatrix;
     private int deletedId;
     public class MyBinder extends Binder{
         MatrixCalculator getService(){
@@ -17,25 +17,28 @@ public class MatrixCalculator extends Service {
         }
     }
     public MatrixCalculator() {
-        MList=new LinkedList<Queue<Matrix>>();
-        deletedMatrix=new LinkedList<Matrix>();
+        MList=new LinkedList<Matrix>();
+        deletedMatrix=new Matrix();
+        deletedId=-1;
     }
     @Override
     public IBinder onBind(Intent intent) {
         return binder;
     }
-    public void createMatrix(int row,int column,int n[][]){
-        Matrix tmp=new Matrix(row,column,n);
-        Queue<Matrix> tmpQueue=new LinkedList<Matrix>();
-        tmpQueue.offer(tmp);
-        MList.add(tmpQueue);
+
+    public void createMatrix(int row,int column,int n[][],String name){
+        Matrix tmp;
+        if(name=="")
+            tmp=new Matrix(row,column,n,MList.size(),"矩阵");
+        else
+            tmp=new Matrix(row,column,n,MList.size(),name);
+        MList.add(tmp);
     }
     public void removeMatrix(int id){
         if(id<MList.size()){
-            Queue<Matrix> tmp= MList.get(id);
-            while (!tmp.isEmpty()) {
-                deletedMatrix.offer(tmp.poll());
-            }
+            Matrix tmp= MList.get(id);
+            deletedMatrix=new Matrix();
+            deletedMatrix.copyMatrix(tmp);
             MList.remove(id);
             deletedId=id;
         }
@@ -48,5 +51,8 @@ public class MatrixCalculator extends Service {
     }
     public int fun(){
         return MList.size();
+    }
+    public LinkedList<Matrix> getMList(){
+        return MList;
     }
 }
