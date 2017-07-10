@@ -14,12 +14,12 @@ import java.util.zip.Inflater;
  * Created by jj on 17-7-6.
  */
 
-public class Myadapter extends BaseAdapter {
+public class MatrixListAdapter extends BaseAdapter {
     LinkedList<Matrix> mData;
     Context mContext;
 
-    public Myadapter(){}
-    public Myadapter(LinkedList<Matrix> Data,Context context){
+    public MatrixListAdapter(){}
+    public MatrixListAdapter(LinkedList<Matrix> Data, Context context){
         mData=Data;
         mContext=context;
     }
@@ -56,7 +56,8 @@ public class Myadapter extends BaseAdapter {
         viewHolder.subtext.setText(mData.get(i).getRow()+"*"+mData.get(i).getColumn());
         return view;
     }
-    class ViewHolder{
+
+    private class ViewHolder{
         TextView text;
         TextView subtext;
     }

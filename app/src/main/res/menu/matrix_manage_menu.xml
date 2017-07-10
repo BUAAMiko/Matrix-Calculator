@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Add new Matrix"
+        android:id="@+id/addMatrix"/>
+    <item android:title="Edit Matrix"
+        android:id="@+id/editMatrix"/>
+    <item android:title="Delete Matrix"
+        android:id="@+id/deleteMatrix"/>
+    <item android:title="Help"
+        android:id="@+id/help"/>
+    <item android:id="@+id/about"
+        android:title="About"/>
+</menu>

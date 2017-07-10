@@ -11,16 +11,19 @@ public class MatrixCalculator extends Service {
     private LinkedList<Matrix> MList;
     private Matrix deletedMatrix;
     private int deletedId;
+
     public class MyBinder extends Binder{
         MatrixCalculator getService(){
             return MatrixCalculator.this;
         }
     }
+
     public MatrixCalculator() {
         MList=new LinkedList<Matrix>();
         deletedMatrix=new Matrix();
         deletedId=-1;
     }
+
     @Override
     public IBinder onBind(Intent intent) {
         return binder;
@@ -29,11 +32,12 @@ public class MatrixCalculator extends Service {
     public void createMatrix(int row,int column,int n[][],String name){
         Matrix tmp;
         if(name=="")
-            tmp=new Matrix(row,column,n,MList.size(),"矩阵");
+            tmp=new Matrix(row,column,n,MList.size(),"Matrix");
         else
             tmp=new Matrix(row,column,n,MList.size(),name);
         MList.add(tmp);
     }
+
     public void removeMatrix(int id){
         if(id<MList.size()){
             Matrix tmp= MList.get(id);
@@ -43,12 +47,14 @@ public class MatrixCalculator extends Service {
             deletedId=id;
         }
     }
+
     public void recoveryMatrix(){
         if(deletedId!=-1){
             MList.add(deletedId,deletedMatrix);
             deletedId=-1;
         }
     }
+
     public int fun(){
         return MList.size();
     }
