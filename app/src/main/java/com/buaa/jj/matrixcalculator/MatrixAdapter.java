@@ -14,9 +14,9 @@ import android.widget.TextView;
 public class MatrixAdapter extends BaseAdapter {
     private Context context;
     private int count;
-    private int[][] n;
+    private double[][] n;
     private int column;
-    public MatrixAdapter(Context context,int count,Matrix matrix){
+    public MatrixAdapter(Context context,int count,_Matrix matrix){
         this.context=context;
         this.count=count;
         n=matrix.getNum();
@@ -29,7 +29,7 @@ public class MatrixAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view= LayoutInflater.from(context).inflate(R.layout.grid_item_output,viewGroup,false);
+        view= LayoutInflater.from(context).inflate(R.layout.adapter_grid_item_output,viewGroup,false);
         TextView textView=view.findViewById(R.id.textView8);
         textView.setText(n[i/column][i%column]+"");
         return view;

@@ -8,18 +8,17 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.LinkedList;
-import java.util.zip.Inflater;
 
 /**
  * Created by jj on 17-7-6.
  */
 
 public class MatrixListAdapter extends BaseAdapter {
-    LinkedList<Matrix> mData;
+    LinkedList<_Matrix> mData;
     Context mContext;
 
     public MatrixListAdapter(){}
-    public MatrixListAdapter(LinkedList<Matrix> Data, Context context){
+    public MatrixListAdapter(LinkedList<_Matrix> Data, Context context){
         mData=Data;
         mContext=context;
     }
@@ -43,7 +42,7 @@ public class MatrixListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder=null;
         if(view==null){
-            view= LayoutInflater.from(mContext).inflate(R.layout.list_item,viewGroup,false);
+            view= LayoutInflater.from(mContext).inflate(R.layout.adapter_list_item,viewGroup,false);
             viewHolder=new ViewHolder();
             viewHolder.text=(TextView) view.findViewById(R.id.textView2);
             viewHolder.subtext=(TextView) view.findViewById(R.id.textView3);

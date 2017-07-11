@@ -16,12 +16,12 @@ public class MatrixFragment extends Fragment {
     private int row;
     private int column;
     private String name;
-    MainActivity mainActivity;
+    MatrixManagerActivity matrixManagerActivity;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        Matrix tmp=(Matrix) getArguments().getSerializable("Matrix");
+        _Matrix tmp=(_Matrix) getArguments().getSerializable("_Matrix");
         row=tmp.getRow();
         column=tmp.getColumn();
         View view=inflater.inflate(R.layout.fragment_matrix,container,false);

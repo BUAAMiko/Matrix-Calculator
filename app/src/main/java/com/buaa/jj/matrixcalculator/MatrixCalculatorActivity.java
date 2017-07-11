@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,26 +20,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 
-import java.util.LinkedList;
+public class MatrixCalculatorActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
-
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,AddMatrixFragment.FragmentInteraction{
-
-    @Override
-    public void process(int r,int c,int[][] n,String name) {
-        binder.createMatrix(r,c,n,name);
-        getFragmentManager().beginTransaction().remove(fragment).commit();
-    }
-
-    ServiceConnection conn=new ServiceConnection() {
+    private ServiceConnection conn=new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            binder=((MatrixCalculator.MyBinder) iBinder).getService();
+            binder=((ApplicationMainService.MyBinder) iBinder).getService();
         }
 
         @Override
@@ -49,66 +38,39 @@ public class MainActivity extends AppCompatActivity
 
         }
     };
-    Fragment fragment;
-    Context mainActivity =this;
-    Intent MCService;
-    MatrixCalculator binder;
-    ListView listView;
-    int fragmentStatus=0;
-    int Id;
+    private ApplicationMainService binder;
+    private Context matrixCalculatorActivity=this;
+    private Fragment currentFragment;
+    private ListView drawer_listView;
+    private int Matrix_id;
+    private int fragment_status=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MCService=new Intent(MainActivity.this,MatrixCalculator.class);
-        startService(MCService);
-        bindService(MCService,conn, BIND_AUTO_CREATE);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.matrix_calculator_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        listView=(ListView) findViewById(R.id.list_item);
+
+        bindService(new Intent(MatrixCalculatorActivity.this,ApplicationMainService.class),conn,BIND_AUTO_CREATE);
+        drawer_listView =(ListView) findViewById(R.id.list_item);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                final PopupMenu popupMenu=new PopupMenu(mainActivity,view);
-                if(fragmentStatus==0)
-                    popupMenu.getMenuInflater().inflate(R.menu.activity_main_drawer,popupMenu.getMenu());
+                final PopupMenu popupMenu=new PopupMenu(matrixCalculatorActivity,view);
+                if(fragment_status==0)
+                    popupMenu.getMenuInflater().inflate(R.menu.matrix_calculator_drawer,popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         int id = menuItem.getItemId();
 
-                        if (id == R.id.addMatrix) {
-                            AlertDialog.Builder addMatrix=new AlertDialog.Builder(mainActivity);
-                            addMatrix.setTitle("Add Matrix");
-                            final View dialogView= LayoutInflater.from(mainActivity).inflate(R.layout.add_matrix_dialog,null,false);
-                            addMatrix.setView(dialogView);
-                            addMatrix.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Bundle bundle=new Bundle();
-                                    int[] n=new int[2];
-                                    EditText editText=(EditText) dialogView.findViewById(R.id.editText);
-                                    n[0]=Integer.parseInt(editText.getText().toString());
-                                    editText=(EditText) dialogView.findViewById(R.id.editText2);
-                                    n[1]=Integer.parseInt(editText.getText().toString());
-                                    bundle.putIntArray("Row&Column",n);
-                                    fragment =new AddMatrixFragment();
-                                    fragment.setArguments(bundle);
-                                    getFragmentManager().beginTransaction().replace(R.id.fragment_place,fragment).commit();
-                                }
-                            });
-                            addMatrix.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                }
-                            });
-                            addMatrix.setCancelable(false);
-                            addMatrix.show();
+                        if (id == R.id.analyse_matrix) {
+                            startActivity(new Intent(matrixCalculatorActivity,MatrixAnalyseActivity.class));
                         } else if (id == R.id.help) {
-                            AlertDialog.Builder help=new AlertDialog.Builder(mainActivity);
+                            AlertDialog.Builder help=new AlertDialog.Builder(matrixCalculatorActivity);
                             help.setTitle("Help");
                             help.setMessage(R.string.Help);
                             help.setPositiveButton("Close", new DialogInterface.OnClickListener() {
@@ -120,7 +82,7 @@ public class MainActivity extends AppCompatActivity
                             help.setCancelable(false);
                             help.show();
                         } else if (id == R.id.about) {
-                            AlertDialog.Builder about=new AlertDialog.Builder(mainActivity);
+                            AlertDialog.Builder about=new AlertDialog.Builder(matrixCalculatorActivity);
                             about.setTitle("About");
                             about.setMessage(R.string.About);
                             about.setPositiveButton("Close", new DialogInterface.OnClickListener() {
@@ -131,10 +93,6 @@ public class MainActivity extends AppCompatActivity
                             });
                             about.setCancelable(false);
                             about.show();
-                        }else if (id==R.id.editMatrix){
-
-                        }else if (id==R.id.deleteMatrix){
-                            binder.removeMatrix(Id);
                         }
                         return true;
                     }
@@ -149,8 +107,6 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
         drawer.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -159,18 +115,18 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                MatrixListAdapter matrixListAdapter =new MatrixListAdapter(binder.getMList(), mainActivity);
-                listView.setAdapter(matrixListAdapter);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                MatrixListAdapter matrixListAdapter =new MatrixListAdapter(binder.getMList(), matrixCalculatorActivity);
+                drawer_listView.setAdapter(matrixListAdapter);
+                drawer_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Id=i;
-                        Matrix tmp=binder.getMList().get(i);
+                        Matrix_id =i;
+                        _Matrix tmp=binder.getMList().get(i);
                         Bundle bundle=new Bundle();
-                        bundle.putSerializable("Matrix",tmp);
-                        fragment=new MatrixFragment();
-                        fragment.setArguments(bundle);
-                        getFragmentManager().beginTransaction().replace(R.id.fragment_place,fragment).commit();
+                        bundle.putSerializable("_Matrix",tmp);
+                        currentFragment =new MatrixFragment();
+                        currentFragment.setArguments(bundle);
+                        getFragmentManager().beginTransaction().replace(R.id.fragment_place, currentFragment).commit();
                     }
                 });
             }
@@ -185,12 +141,15 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-    }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbindService(conn);
+        ImageView image=(ImageView) findViewById(R.id.imageView);
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(matrixCalculatorActivity,MatrixManagerActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -206,7 +165,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.matrix_calculator, menu);
         return true;
     }
 
@@ -229,11 +188,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-    public MatrixCalculator getService(){
-        return binder;
     }
 }

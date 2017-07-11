@@ -21,12 +21,12 @@ public class AddMatrixFragment extends Fragment {
     private String name;
     Button btncommit;
     EditText editText;
-    MainActivity mainActivity;
+    MatrixManagerActivity matrixManagerActivity;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mainActivity=(MainActivity) context;
+        matrixManagerActivity =(MatrixManagerActivity) context;
     }
 
     public interface FragmentInteraction{
@@ -44,8 +44,8 @@ public class AddMatrixFragment extends Fragment {
         editText= view.findViewById(R.id.editText4);
         final GridView gridView=view.findViewById(R.id.grid_view);
         gridView.setNumColumns(column);
-        AddMatrixAdapter addMatrixAdapter=new AddMatrixAdapter(getActivity(),row*column);
-        gridView.setAdapter(addMatrixAdapter);
+        MatrixInputAdapter matrixInputAdapter =new MatrixInputAdapter(getActivity(),row*column);
+        gridView.setAdapter(matrixInputAdapter);
         btncommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,7 +56,7 @@ public class AddMatrixFragment extends Fragment {
                     }
                 }
                 name=editText.getText().toString();
-                mainActivity.process(row,column,m,name);
+                matrixManagerActivity.process(row,column,m,name);
             }
         });
         return view;

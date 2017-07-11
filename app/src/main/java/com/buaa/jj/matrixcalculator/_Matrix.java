@@ -3,25 +3,24 @@ package com.buaa.jj.matrixcalculator;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Stack;
 
 /**
  * Created by jj on 17-7-5.
  */
 
-public class Matrix implements Serializable {
+public class _Matrix implements Serializable {
     private String name;
     private int row;
     private int column;
-    private int[][] num;
-    private Queue<FluctuationMatrix> operation;
+    private double[][] num;
+    private Queue<_FluctuationMatrix> operation;
     private boolean state;
 
     private boolean fun(int[][] n){
         return n.length==row&&n[0].length==column;
     }
 
-    public void setElement(int r,int c,int n){
+    public void setElement(int r,int c,double n){
         num[r][c]=n;
     }
 
@@ -29,32 +28,32 @@ public class Matrix implements Serializable {
         this.name=name;
     }
 
-    public Matrix(){
+    public _Matrix(){
         row=1;
         column=1;
-        num=new int[row][column];
+        num=new double[row][column];
         state=true;
         name=new String();
         name="矩阵";
-        operation=new LinkedList<FluctuationMatrix>();
+        operation=new LinkedList<_FluctuationMatrix>();
     }
 
-    public Matrix(int r,int c,int[][] n,int id,String name){
+    public _Matrix(int r, int c, int[][] n, int id, String name){
         row=r;
         column=c;
         if(fun(n)){
-            num=new int[row][column];
+            num=new double[row][column];
             state=true;
             this.name=id+"-"+name;
-            operation=new LinkedList<FluctuationMatrix>();
+            operation=new LinkedList<_FluctuationMatrix>();
         }
         else{
             row=1;
             column=1;
-            num=new int[row][column];
+            num=new double[row][column];
             state=false;
             this.name=id+"-矩阵";
-            operation=new LinkedList<FluctuationMatrix>();
+            operation=new LinkedList<_FluctuationMatrix>();
         }
         if(state){
             for(int i=0;i<row;i++){
@@ -65,13 +64,13 @@ public class Matrix implements Serializable {
         }
     }
 
-    public Matrix(int r,int c,int[][] n,String name){
+    public _Matrix(int r, int c, int[][] n, String name){
         row=r;
         column=c;
-        num=new int[row][column];
+        num=new double[row][column];
         state=true;
         this.name=name;
-        operation=new LinkedList<FluctuationMatrix>();
+        operation=new LinkedList<_FluctuationMatrix>();
         for(int i=0;i<row;i++){
             for(int j=0;j<column;j++){
                 setElement(i,j,n[i][j]);
@@ -79,16 +78,16 @@ public class Matrix implements Serializable {
         }
     }
 
-    public void operate(FluctuationMatrix fluctuationMatrix){
+    public void operate(_FluctuationMatrix fluctuationMatrix){
         operation.offer(fluctuationMatrix);
     }
 
-    public Matrix matrixMultiply(Matrix baseMatrix,FluctuationMatrix fluctuationMatrix){
+    public _Matrix matrixMultiply(_Matrix baseMatrix, _FluctuationMatrix fluctuationMatrix){
         int row=fluctuationMatrix.getRow();
         int column=baseMatrix.getColumn();
         int[][] m=new int[row][column];
         String name=baseMatrix.getName();
-        Matrix ans=new Matrix(row,column,m,name);
+        _Matrix ans=new _Matrix(row,column,m,name);
         for(int i=0;i<row;i++){
             for(int j=0;j<column;j++){
                 for(int k=0;k<baseMatrix.column;k++)
@@ -99,7 +98,7 @@ public class Matrix implements Serializable {
     }
 
     public void mergeMatrix(){
-        Matrix tmp=this;
+        _Matrix tmp=this;
         while(!operation.isEmpty()){
             tmp=matrixMultiply(tmp,operation.poll());
         }
@@ -114,11 +113,11 @@ public class Matrix implements Serializable {
         return column;
     }
 
-    public int[][] getNum(){
+    public double[][] getNum(){
         return num;
     }
 
-    public int getElement(int r,int c){
+    public double getElement(int r,int c){
         return num[r][c];
     }
 
@@ -126,7 +125,7 @@ public class Matrix implements Serializable {
         return name;
     }
 
-    public void copyMatrix(Matrix matrix){
+    public void copyMatrix(_Matrix matrix){
         this.name=matrix.getName();
         this.num=matrix.getNum();
         this.row=matrix.getRow();

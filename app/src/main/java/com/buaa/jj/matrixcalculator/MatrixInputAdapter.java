@@ -10,10 +10,10 @@ import android.widget.BaseAdapter;
  * Created by jj on 17-7-7.
  */
 
-public class AddMatrixAdapter extends BaseAdapter {
+public class MatrixInputAdapter extends BaseAdapter {
     private Context context;
     private int count;
-    public AddMatrixAdapter(Context mcontext,int count){
+    public MatrixInputAdapter(Context mcontext, int count){
         context=mcontext;
         this.count=count;
     }
@@ -24,7 +24,7 @@ public class AddMatrixAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view= LayoutInflater.from(context).inflate(R.layout.grid_item_input,viewGroup,false);
+        view= LayoutInflater.from(context).inflate(R.layout.adapter_grid_item_input,viewGroup,false);
         return view;
     }
 
