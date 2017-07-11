@@ -79,7 +79,7 @@ public class MatrixManagerActivity extends AppCompatActivity
 
                         if (id == R.id.addMatrix) {
                             AlertDialog.Builder addMatrix=new AlertDialog.Builder(mainActivity);
-                            addMatrix.setTitle("Add _Matrix");
+                            addMatrix.setTitle("Add MyMatrix");
                             final View dialogView= LayoutInflater.from(mainActivity).inflate(R.layout.dialog_add_matrix,null,false);
                             addMatrix.setView(dialogView);
                             addMatrix.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -161,9 +161,9 @@ public class MatrixManagerActivity extends AppCompatActivity
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Id=i;
-                        _Matrix tmp=binder.getMList().get(i);
+                        MyMatrix tmp=binder.getMList().get(i);
                         Bundle bundle=new Bundle();
-                        bundle.putSerializable("_Matrix",tmp);
+                        bundle.putSerializable("MyMatrix",tmp);
                         fragment=new MatrixFragment();
                         fragment.setArguments(bundle);
                         getFragmentManager().beginTransaction().replace(R.id.fragment_place,fragment).commit();

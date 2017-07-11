@@ -14,11 +14,11 @@ import java.util.LinkedList;
  */
 
 public class MatrixListAdapter extends BaseAdapter {
-    LinkedList<_Matrix> mData;
+    LinkedList<MyMatrix> mData;
     Context mContext;
 
     public MatrixListAdapter(){}
-    public MatrixListAdapter(LinkedList<_Matrix> Data, Context context){
+    public MatrixListAdapter(LinkedList<MyMatrix> Data, Context context){
         mData=Data;
         mContext=context;
     }

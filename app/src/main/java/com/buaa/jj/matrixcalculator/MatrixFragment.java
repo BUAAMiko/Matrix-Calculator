@@ -21,7 +21,7 @@ public class MatrixFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        _Matrix tmp=(_Matrix) getArguments().getSerializable("_Matrix");
+        MyMatrix tmp=(MyMatrix) getArguments().getSerializable("MyMatrix");
         row=tmp.getRow();
         column=tmp.getColumn();
         View view=inflater.inflate(R.layout.fragment_matrix,container,false);

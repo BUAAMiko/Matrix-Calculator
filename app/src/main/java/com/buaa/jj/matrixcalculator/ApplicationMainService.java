@@ -10,8 +10,8 @@ import Jama.Matrix;
 
 public class ApplicationMainService extends Service {
     MyBinder binder=new MyBinder();
-    private LinkedList<_Matrix> MList;
-    private _Matrix deletedMatrix;
+    private LinkedList<MyMatrix> MList;
+    private MyMatrix deletedMatrix;
     private int deletedId;
 
     public class MyBinder extends Binder{
@@ -21,8 +21,8 @@ public class ApplicationMainService extends Service {
     }
 
     public ApplicationMainService() {
-        MList=new LinkedList<_Matrix>();
-        deletedMatrix=new _Matrix();
+        MList=new LinkedList<MyMatrix>();
+        deletedMatrix=new MyMatrix();
         deletedId=-1;
     }
 
@@ -32,18 +32,18 @@ public class ApplicationMainService extends Service {
     }
 
     public void createMatrix(int row,int column,int n[][],String name){
-        _Matrix tmp;
+        MyMatrix tmp;
         if(name=="")
-            tmp=new _Matrix(row,column,n,MList.size(),"_Matrix");
+            tmp=new MyMatrix(row,column,n,MList.size(),"MyMatrix");
         else
-            tmp=new _Matrix(row,column,n,MList.size(),name);
+            tmp=new MyMatrix(row,column,n,MList.size(),name);
         MList.add(tmp);
     }
 
     public void removeMatrix(int id){
         if(id<MList.size()){
-            _Matrix tmp= MList.get(id);
-            deletedMatrix=new _Matrix();
+            MyMatrix tmp= MList.get(id);
+            deletedMatrix=new MyMatrix();
             deletedMatrix.copyMatrix(tmp);
             MList.remove(id);
             deletedId=id;
@@ -61,7 +61,7 @@ public class ApplicationMainService extends Service {
         return MList.size();
     }
 
-    public LinkedList<_Matrix> getMList(){
+    public LinkedList<MyMatrix> getMList(){
         return MList;
     }
 

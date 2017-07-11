@@ -5,7 +5,7 @@ package com.buaa.jj.matrixcalculator;
  * Created by jj on 17-7-6.
  */
 
-public class _FluctuationMatrix {
+public class MyFluctuationMatrix {
     private int row;
     private int column;
     private int[][] num;
@@ -16,13 +16,13 @@ public class _FluctuationMatrix {
     public void setElement(int r,int c,int n){
         num[r][c]=n;
     }
-    public _FluctuationMatrix(){
+    public MyFluctuationMatrix(){
         row=1;
         column=1;
         num=new int[row][column];
         state=true;
     }
-    public _FluctuationMatrix(int r, int c, int[][] n, int id, String name){
+    public MyFluctuationMatrix(int r, int c, int[][] n, int id, String name){
         if(fun(n)){
             row=r;
             column=c;

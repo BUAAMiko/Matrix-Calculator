@@ -121,9 +121,9 @@ public class MatrixCalculatorActivity extends AppCompatActivity
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Matrix_id =i;
-                        _Matrix tmp=binder.getMList().get(i);
+                        MyMatrix tmp=binder.getMList().get(i);
                         Bundle bundle=new Bundle();
-                        bundle.putSerializable("_Matrix",tmp);
+                        bundle.putSerializable("MyMatrix",tmp);
                         currentFragment =new MatrixFragment();
                         currentFragment.setArguments(bundle);
                         getFragmentManager().beginTransaction().replace(R.id.fragment_place, currentFragment).commit();

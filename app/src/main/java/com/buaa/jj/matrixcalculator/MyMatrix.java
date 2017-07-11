@@ -8,12 +8,12 @@ import java.util.Queue;
  * Created by jj on 17-7-5.
  */
 
-public class _Matrix implements Serializable {
+public class MyMatrix implements Serializable {
     private String name;
     private int row;
     private int column;
     private double[][] num;
-    private Queue<_FluctuationMatrix> operation;
+    private Queue<MyFluctuationMatrix> operation;
     private boolean state;
 
     private boolean fun(int[][] n){
@@ -28,24 +28,24 @@ public class _Matrix implements Serializable {
         this.name=name;
     }
 
-    public _Matrix(){
+    public MyMatrix(){
         row=1;
         column=1;
         num=new double[row][column];
         state=true;
         name=new String();
         name="矩阵";
-        operation=new LinkedList<_FluctuationMatrix>();
+        operation=new LinkedList<MyFluctuationMatrix>();
     }
 
-    public _Matrix(int r, int c, int[][] n, int id, String name){
+    public MyMatrix(int r, int c, int[][] n, int id, String name){
         row=r;
         column=c;
         if(fun(n)){
             num=new double[row][column];
             state=true;
             this.name=id+"-"+name;
-            operation=new LinkedList<_FluctuationMatrix>();
+            operation=new LinkedList<MyFluctuationMatrix>();
         }
         else{
             row=1;
@@ -53,7 +53,7 @@ public class _Matrix implements Serializable {
             num=new double[row][column];
             state=false;
             this.name=id+"-矩阵";
-            operation=new LinkedList<_FluctuationMatrix>();
+            operation=new LinkedList<MyFluctuationMatrix>();
         }
         if(state){
             for(int i=0;i<row;i++){
@@ -64,13 +64,13 @@ public class _Matrix implements Serializable {
         }
     }
 
-    public _Matrix(int r, int c, int[][] n, String name){
+    public MyMatrix(int r, int c, int[][] n, String name){
         row=r;
         column=c;
         num=new double[row][column];
         state=true;
         this.name=name;
-        operation=new LinkedList<_FluctuationMatrix>();
+        operation=new LinkedList<MyFluctuationMatrix>();
         for(int i=0;i<row;i++){
             for(int j=0;j<column;j++){
                 setElement(i,j,n[i][j]);
@@ -78,16 +78,16 @@ public class _Matrix implements Serializable {
         }
     }
 
-    public void operate(_FluctuationMatrix fluctuationMatrix){
+    public void operate(MyFluctuationMatrix fluctuationMatrix){
         operation.offer(fluctuationMatrix);
     }
 
-    public _Matrix matrixMultiply(_Matrix baseMatrix, _FluctuationMatrix fluctuationMatrix){
+    public MyMatrix matrixMultiply(MyMatrix baseMatrix, MyFluctuationMatrix fluctuationMatrix){
         int row=fluctuationMatrix.getRow();
         int column=baseMatrix.getColumn();
         int[][] m=new int[row][column];
         String name=baseMatrix.getName();
-        _Matrix ans=new _Matrix(row,column,m,name);
+        MyMatrix ans=new MyMatrix(row,column,m,name);
         for(int i=0;i<row;i++){
             for(int j=0;j<column;j++){
                 for(int k=0;k<baseMatrix.column;k++)
@@ -98,7 +98,7 @@ public class _Matrix implements Serializable {
     }
 
     public void mergeMatrix(){
-        _Matrix tmp=this;
+        MyMatrix tmp=this;
         while(!operation.isEmpty()){
             tmp=matrixMultiply(tmp,operation.poll());
         }
@@ -125,7 +125,7 @@ public class _Matrix implements Serializable {
         return name;
     }
 
-    public void copyMatrix(_Matrix matrix){
+    public void copyMatrix(MyMatrix matrix){
         this.name=matrix.getName();
         this.num=matrix.getNum();
         this.row=matrix.getRow();

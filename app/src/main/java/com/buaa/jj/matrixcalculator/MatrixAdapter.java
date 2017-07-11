@@ -16,7 +16,7 @@ public class MatrixAdapter extends BaseAdapter {
     private int count;
     private double[][] n;
     private int column;
-    public MatrixAdapter(Context context,int count,_Matrix matrix){
+    public MatrixAdapter(Context context,int count,MyMatrix matrix){
         this.context=context;
         this.count=count;
         n=matrix.getNum();
