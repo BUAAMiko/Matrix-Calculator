@@ -20,9 +20,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import Jama.Matrix;
 
 public class MatrixCalculatorActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,9 +58,9 @@ public class MatrixCalculatorActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         bindService(new Intent(MatrixCalculatorActivity.this,ApplicationMainService.class),conn,BIND_AUTO_CREATE);
-        drawer_listView =(ListView) findViewById(R.id.list_item);
+        drawer_listView =(ListView) findViewById(R.id.matrix_list);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.menu);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -68,7 +73,9 @@ public class MatrixCalculatorActivity extends AppCompatActivity
                         int id = menuItem.getItemId();
 
                         if (id == R.id.analyse_matrix) {
-                            startActivity(new Intent(matrixCalculatorActivity,MatrixAnalyseActivity.class));
+                            Intent intent=new Intent(matrixCalculatorActivity,MatrixAnalyseActivity.class);
+                            intent.putExtra("matrix",binder.getMList().get(Matrix_id));
+                            startActivity(intent);
                         } else if (id == R.id.help) {
                             AlertDialog.Builder help=new AlertDialog.Builder(matrixCalculatorActivity);
                             help.setTitle("Help");
@@ -148,6 +155,75 @@ public class MatrixCalculatorActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent=new Intent(matrixCalculatorActivity,MatrixManagerActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        Button button=(Button) findViewById(R.id.calculate);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Spinner spinner1 = (Spinner) findViewById(R.id.matrix1);
+                Spinner spinner2 = (Spinner) findViewById(R.id.matrix2);
+                Spinner operation = (Spinner) findViewById(R.id.operate);
+                MyMatrix myMatrix1 = (MyMatrix) spinner1.getSelectedItem();
+                MyMatrix myMatrix2 = (MyMatrix) spinner2.getSelectedItem();
+                String operate=(String) operation.getSelectedItem();
+                if (myMatrix1 != null && myMatrix2 != null && operate!=null) {
+                    if(operate.equals("Multiply")){
+                        if (myMatrix1.getColumn() == myMatrix2.getRow()) {
+                            Matrix matrix1 = new Matrix(myMatrix1.getNum());
+                            Matrix ans = matrix1.times(new Matrix(myMatrix2.getNum()));
+                            MyMatrix myAns = new MyMatrix(myMatrix1.getRow(), myMatrix2.getColumn(), ans.getArray(), "");
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("MyMatrix", myAns);
+                            currentFragment = new MatrixFragment();
+                            currentFragment.setArguments(bundle);
+                            getFragmentManager().beginTransaction().replace(R.id.fragment_place, currentFragment).commit();
+                        }else {
+                            Toast.makeText(matrixCalculatorActivity,"The column of left matrix not equal to the row of right matrix!",Toast.LENGTH_LONG).show();
+                        }
+                    }else if (operate.equals("Plus")){
+                        if(myMatrix1.getColumn()==myMatrix2.getColumn()&&myMatrix1.getRow()==myMatrix2.getRow()){
+                            Matrix matrix1 = new Matrix(myMatrix1.getNum());
+                            Matrix ans = matrix1.plus(new Matrix(myMatrix2.getNum()));
+                            MyMatrix myAns = new MyMatrix(myMatrix1.getRow(), myMatrix1.getColumn(), ans.getArray(), "");
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("MyMatrix", myAns);
+                            currentFragment = new MatrixFragment();
+                            currentFragment.setArguments(bundle);
+                            getFragmentManager().beginTransaction().replace(R.id.fragment_place, currentFragment).commit();
+                        }else {
+                            Toast.makeText(matrixCalculatorActivity,"The column and row of left matrix not equal to those of right matrix!",Toast.LENGTH_LONG).show();
+                        }
+                    }else if(operate.equals("Minus")){
+                        if(myMatrix1.getColumn()==myMatrix2.getColumn()&&myMatrix1.getRow()==myMatrix2.getRow()){
+                            Matrix matrix1 = new Matrix(myMatrix1.getNum());
+                            Matrix ans = matrix1.minus(new Matrix(myMatrix2.getNum()));
+                            MyMatrix myAns = new MyMatrix(myMatrix1.getRow(), myMatrix1.getColumn(), ans.getArray(), "");
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("MyMatrix", myAns);
+                            currentFragment = new MatrixFragment();
+                            currentFragment.setArguments(bundle);
+                            getFragmentManager().beginTransaction().replace(R.id.fragment_place, currentFragment).commit();
+                        }else {
+                            Toast.makeText(matrixCalculatorActivity,"The column and row of left matrix not equal to those of right matrix!",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+                else {
+                    Toast.makeText(matrixCalculatorActivity,"Please select the items",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        button=(Button) findViewById(R.id.refresh_spinner);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Spinner spinner=(Spinner) findViewById(R.id.matrix1);
+                spinner.setAdapter(new MatrixListAdapter(binder.getMList(),matrixCalculatorActivity));
+                spinner=(Spinner) findViewById(R.id.matrix2);
+                spinner.setAdapter(new MatrixListAdapter(binder.getMList(),matrixCalculatorActivity));
             }
         });
     }

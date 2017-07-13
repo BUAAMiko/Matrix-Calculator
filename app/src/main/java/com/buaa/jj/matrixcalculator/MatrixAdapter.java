@@ -30,8 +30,9 @@ public class MatrixAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view= LayoutInflater.from(context).inflate(R.layout.adapter_grid_item_output,viewGroup,false);
-        TextView textView=view.findViewById(R.id.textView8);
-        textView.setText(n[i/column][i%column]+"");
+        TextView textView=view.findViewById(R.id.matrix_output);
+        String num=String.format("%.2f",n[i/column][i%column]);
+        textView.setText(num);
         return view;
     }
 

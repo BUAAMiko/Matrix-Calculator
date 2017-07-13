@@ -16,16 +16,21 @@ public class MatrixFragment extends Fragment {
     private int row;
     private int column;
     private String name;
+    private MyMatrix tmp;
     MatrixManagerActivity matrixManagerActivity;
+
+    public interface FragmentInteraction{
+        void process(MyMatrix myMatrix);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        MyMatrix tmp=(MyMatrix) getArguments().getSerializable("MyMatrix");
+        tmp=(MyMatrix) getArguments().getSerializable("MyMatrix");
         row=tmp.getRow();
         column=tmp.getColumn();
         View view=inflater.inflate(R.layout.fragment_matrix,container,false);
-        final GridView gridView=view.findViewById(R.id.grid_view);
+        final GridView gridView=view.findViewById(R.id.show_matrix_grid);
         gridView.setNumColumns(column);
         MatrixAdapter matrixAdapter=new MatrixAdapter(getActivity(),row*column,tmp);
         gridView.setAdapter(matrixAdapter);

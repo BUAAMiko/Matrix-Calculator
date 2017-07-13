@@ -44,8 +44,8 @@ public class MatrixListAdapter extends BaseAdapter {
         if(view==null){
             view= LayoutInflater.from(mContext).inflate(R.layout.adapter_list_item,viewGroup,false);
             viewHolder=new ViewHolder();
-            viewHolder.text=(TextView) view.findViewById(R.id.textView2);
-            viewHolder.subtext=(TextView) view.findViewById(R.id.textView3);
+            viewHolder.text=(TextView) view.findViewById(R.id.matrix_list_title);
+            viewHolder.subtext=(TextView) view.findViewById(R.id.matrix_list_subtitle);
             view.setTag(viewHolder);
         }
         else {

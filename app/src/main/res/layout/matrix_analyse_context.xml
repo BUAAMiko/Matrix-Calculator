@@ -12,7 +12,6 @@
         android:padding="3dp">
 
         <TextView
-            android:id="@+id/textView19"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Basic Information"
@@ -28,7 +27,6 @@
             android:background="@drawable/background_with_shadow">
 
             <TextView
-                android:id="@+id/textView14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Matrix"
@@ -41,15 +39,32 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView21"
+                <com.buaa.jj.matrixcalculator.MyGridView
+                    android:id="@+id/matrix_grid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/matrix_background"
-                    android:text="123414" />
+                    android:background="@drawable/matrix_background"/>
 
                 <TextView
-                    android:id="@+id/textView20"
+                    android:id="@+id/rank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/det"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/dim"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/dim2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TextView" />
@@ -66,7 +81,6 @@
             android:background="@drawable/background_with_shadow">
 
             <TextView
-                android:id="@+id/textView16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Inverse Matrix"
@@ -74,11 +88,12 @@
                 android:textSize="25sp"
                 android:layout_marginBottom="3dp"/>
 
-            <TextView
-                android:id="@+id/textView15"
+            <com.buaa.jj.matrixcalculator.MyGridView
+                android:id="@+id/inverse_matrix"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:background="@drawable/matrix_background"/>
         </LinearLayout>
 
         <LinearLayout
@@ -90,7 +105,6 @@
             android:background="@drawable/background_with_shadow">
 
             <TextView
-                android:id="@+id/textView18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cofactor Matrix"
@@ -98,11 +112,12 @@
                 android:textSize="25sp"
                 android:layout_marginBottom="3dp"/>
 
-            <TextView
-                android:id="@+id/textView17"
+            <com.buaa.jj.matrixcalculator.MyGridView
+                android:id="@+id/cafactor_matrix_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:background="@drawable/matrix_background"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

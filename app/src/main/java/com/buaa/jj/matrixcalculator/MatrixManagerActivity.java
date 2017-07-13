@@ -31,7 +31,7 @@ public class MatrixManagerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,AddMatrixFragment.FragmentInteraction{
 
     @Override
-    public void process(int r,int c,int[][] n,String name) {
+    public void process(int r,int c,double[][] n,String name) {
         binder.createMatrix(r,c,n,name);
         getFragmentManager().beginTransaction().remove(fragment).commit();
     }
@@ -63,9 +63,9 @@ public class MatrixManagerActivity extends AppCompatActivity
         setContentView(R.layout.matrix_manager_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        listView=(ListView) findViewById(R.id.list_item);
+        listView=(ListView) findViewById(R.id.matrix_list);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.menu);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -87,9 +87,9 @@ public class MatrixManagerActivity extends AppCompatActivity
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     Bundle bundle=new Bundle();
                                     int[] n=new int[2];
-                                    EditText editText=(EditText) dialogView.findViewById(R.id.editText);
+                                    EditText editText=(EditText) dialogView.findViewById(R.id.add_matrix_row);
                                     n[0]=Integer.parseInt(editText.getText().toString());
-                                    editText=(EditText) dialogView.findViewById(R.id.editText2);
+                                    editText=(EditText) dialogView.findViewById(R.id.add_matrix_column);
                                     n[1]=Integer.parseInt(editText.getText().toString());
                                     bundle.putIntArray("Row&Column",n);
                                     fragment =new AddMatrixFragment();

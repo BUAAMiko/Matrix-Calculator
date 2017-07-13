@@ -31,7 +31,7 @@ public class ApplicationMainService extends Service {
         return binder;
     }
 
-    public void createMatrix(int row,int column,int n[][],String name){
+    public void createMatrix(int row,int column,double n[][],String name){
         MyMatrix tmp;
         if(name=="")
             tmp=new MyMatrix(row,column,n,MList.size(),"MyMatrix");

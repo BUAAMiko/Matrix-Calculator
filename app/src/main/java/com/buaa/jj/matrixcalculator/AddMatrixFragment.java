@@ -30,7 +30,7 @@ public class AddMatrixFragment extends Fragment {
     }
 
     public interface FragmentInteraction{
-        void process(int r,int c,int[][] n,String name);
+        void process(int r,int c,double[][] n,String name);
     }
 
     @Nullable
@@ -40,19 +40,19 @@ public class AddMatrixFragment extends Fragment {
         row=n[0];
         column=n[1];
         View view=inflater.inflate(R.layout.fragment_add_matrix,container,false);
-        btncommit= view.findViewById(R.id.button);
-        editText= view.findViewById(R.id.editText4);
-        final GridView gridView=view.findViewById(R.id.grid_view);
+        btncommit= view.findViewById(R.id.button_commit);
+        editText= view.findViewById(R.id.add_matrix_name);
+        final GridView gridView=view.findViewById(R.id.add_matrix_grid);
         gridView.setNumColumns(column);
         MatrixInputAdapter matrixInputAdapter =new MatrixInputAdapter(getActivity(),row*column);
         gridView.setAdapter(matrixInputAdapter);
         btncommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int[][] m=new int[row][column];
+                double[][] m=new double[row][column];
                 for(int i=0;i<row;i++){
                     for(int j=0;j<column;j++){
-                        m[i][j]=Integer.parseInt(((EditText)gridView.getChildAt(i*column+j).findViewById(R.id.editText3)).getText().toString());
+                        m[i][j]=Integer.parseInt(((EditText)gridView.getChildAt(i*column+j).findViewById(R.id.matrix_input)).getText().toString());
                     }
                 }
                 name=editText.getText().toString();

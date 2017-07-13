@@ -16,7 +16,7 @@ public class MyMatrix implements Serializable {
     private Queue<MyFluctuationMatrix> operation;
     private boolean state;
 
-    private boolean fun(int[][] n){
+    private boolean fun(double[][] n){
         return n.length==row&&n[0].length==column;
     }
 
@@ -38,7 +38,7 @@ public class MyMatrix implements Serializable {
         operation=new LinkedList<MyFluctuationMatrix>();
     }
 
-    public MyMatrix(int r, int c, int[][] n, int id, String name){
+    public MyMatrix(int r, int c, double[][] n, int id, String name){
         row=r;
         column=c;
         if(fun(n)){
@@ -64,7 +64,7 @@ public class MyMatrix implements Serializable {
         }
     }
 
-    public MyMatrix(int r, int c, int[][] n, String name){
+    public MyMatrix(int r, int c, double[][] n, String name){
         row=r;
         column=c;
         num=new double[row][column];
@@ -85,7 +85,7 @@ public class MyMatrix implements Serializable {
     public MyMatrix matrixMultiply(MyMatrix baseMatrix, MyFluctuationMatrix fluctuationMatrix){
         int row=fluctuationMatrix.getRow();
         int column=baseMatrix.getColumn();
-        int[][] m=new int[row][column];
+        double[][] m=new double[row][column];
         String name=baseMatrix.getName();
         MyMatrix ans=new MyMatrix(row,column,m,name);
         for(int i=0;i<row;i++){

@@ -24,7 +24,7 @@
             layout="@layout/drawer_head" />
 
         <ListView
-            android:id="@+id/list_item"
+            android:id="@+id/matrix_list"
             android:fadingEdge="none"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
