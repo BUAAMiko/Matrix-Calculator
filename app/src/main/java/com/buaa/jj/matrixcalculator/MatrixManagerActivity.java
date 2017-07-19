@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 
 public class MatrixManagerActivity extends AppCompatActivity
@@ -33,7 +34,15 @@ public class MatrixManagerActivity extends AppCompatActivity
     @Override
     public void process(int r,int c,double[][] n,String name) {
         binder.createMatrix(r,c,n,name);
-        getFragmentManager().beginTransaction().remove(fragment).commit();
+        Bundle bundle=new Bundle();
+        int[] m=new int[2];
+        m[0]=n.length;
+        m[1]=n[0].length;
+        bundle.putIntArray("Row&Column",m);
+        fragment =new AddMatrixFragment();
+        fragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.fragment_place,fragment).commit();
+        Toast.makeText(mainActivity,"Create Matrix Successful",Toast.LENGTH_LONG).show();
     }
 
     ServiceConnection conn=new ServiceConnection() {
@@ -72,6 +81,8 @@ public class MatrixManagerActivity extends AppCompatActivity
                 final PopupMenu popupMenu=new PopupMenu(mainActivity,view);
                 if(fragmentStatus==0)
                     popupMenu.getMenuInflater().inflate(R.menu.matrix_manager_default_popupmenu,popupMenu.getMenu());
+                else if(fragmentStatus==1)
+                    popupMenu.getMenuInflater().inflate(R.menu.matrix_manager_manage_popupmenu,popupMenu.getMenu());
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
@@ -129,8 +140,6 @@ public class MatrixManagerActivity extends AppCompatActivity
                             });
                             about.setCancelable(false);
                             about.show();
-                        }else if (id==R.id.editMatrix){
-
                         }else if (id==R.id.deleteMatrix){
                             binder.removeMatrix(Id);
                         }
@@ -190,6 +199,15 @@ public class MatrixManagerActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+        Bundle bundle=new Bundle();
+        int[] n=new int[2];
+        n[0]=3;
+        n[1]=3;
+        bundle.putIntArray("Row&Column",n);
+        fragment =new AddMatrixFragment();
+        fragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.fragment_place,fragment).commit();
     }
 
     @Override

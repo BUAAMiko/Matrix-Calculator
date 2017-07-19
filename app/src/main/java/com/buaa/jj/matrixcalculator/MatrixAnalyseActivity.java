@@ -25,7 +25,7 @@ public class MatrixAnalyseActivity extends AppCompatActivity {
         MyGridView gridView=(MyGridView) findViewById(R.id.matrix_grid);
         gridView.setNumColumns(myMatrix.getColumn());
         gridView.setAdapter(new MatrixAdapter(this,myMatrix.getRow()*myMatrix.getColumn(),myMatrix));
-        if(matrix.det()!=myMatrix.getColumn()&&matrix.det()==myMatrix.getRow()){
+        if(matrix.rank()==myMatrix.getColumn()&&matrix.rank()==myMatrix.getRow()){
             tmp=matrix.inverse().getArray();
             inverseMatrix=new MyMatrix(tmp.length,tmp[0].length,tmp,"");
             tmp=matrix.inverse().times(matrix.det()).getArray();

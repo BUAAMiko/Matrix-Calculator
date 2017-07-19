@@ -49,6 +49,7 @@ public class MatrixCalculatorActivity extends AppCompatActivity
     private ListView drawer_listView;
     private int Matrix_id;
     private int fragment_status=0;
+    private MyMatrix currentMatrix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class MatrixCalculatorActivity extends AppCompatActivity
 
                         if (id == R.id.analyse_matrix) {
                             Intent intent=new Intent(matrixCalculatorActivity,MatrixAnalyseActivity.class);
-                            intent.putExtra("matrix",binder.getMList().get(Matrix_id));
+                            intent.putExtra("matrix",currentMatrix);
                             startActivity(intent);
                         } else if (id == R.id.help) {
                             AlertDialog.Builder help=new AlertDialog.Builder(matrixCalculatorActivity);
@@ -128,9 +129,9 @@ public class MatrixCalculatorActivity extends AppCompatActivity
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Matrix_id =i;
-                        MyMatrix tmp=binder.getMList().get(i);
+                        currentMatrix=binder.getMList().get(i);
                         Bundle bundle=new Bundle();
-                        bundle.putSerializable("MyMatrix",tmp);
+                        bundle.putSerializable("MyMatrix",currentMatrix);
                         currentFragment =new MatrixFragment();
                         currentFragment.setArguments(bundle);
                         getFragmentManager().beginTransaction().replace(R.id.fragment_place, currentFragment).commit();
@@ -173,9 +174,9 @@ public class MatrixCalculatorActivity extends AppCompatActivity
                         if (myMatrix1.getColumn() == myMatrix2.getRow()) {
                             Matrix matrix1 = new Matrix(myMatrix1.getNum());
                             Matrix ans = matrix1.times(new Matrix(myMatrix2.getNum()));
-                            MyMatrix myAns = new MyMatrix(myMatrix1.getRow(), myMatrix2.getColumn(), ans.getArray(), "");
+                            currentMatrix = new MyMatrix(myMatrix1.getRow(), myMatrix2.getColumn(), ans.getArray(), "");
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("MyMatrix", myAns);
+                            bundle.putSerializable("MyMatrix", currentMatrix);
                             currentFragment = new MatrixFragment();
                             currentFragment.setArguments(bundle);
                             getFragmentManager().beginTransaction().replace(R.id.fragment_place, currentFragment).commit();
@@ -186,9 +187,9 @@ public class MatrixCalculatorActivity extends AppCompatActivity
                         if(myMatrix1.getColumn()==myMatrix2.getColumn()&&myMatrix1.getRow()==myMatrix2.getRow()){
                             Matrix matrix1 = new Matrix(myMatrix1.getNum());
                             Matrix ans = matrix1.plus(new Matrix(myMatrix2.getNum()));
-                            MyMatrix myAns = new MyMatrix(myMatrix1.getRow(), myMatrix1.getColumn(), ans.getArray(), "");
+                            currentMatrix = new MyMatrix(myMatrix1.getRow(), myMatrix1.getColumn(), ans.getArray(), "");
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("MyMatrix", myAns);
+                            bundle.putSerializable("MyMatrix", currentMatrix);
                             currentFragment = new MatrixFragment();
                             currentFragment.setArguments(bundle);
                             getFragmentManager().beginTransaction().replace(R.id.fragment_place, currentFragment).commit();
@@ -199,9 +200,9 @@ public class MatrixCalculatorActivity extends AppCompatActivity
                         if(myMatrix1.getColumn()==myMatrix2.getColumn()&&myMatrix1.getRow()==myMatrix2.getRow()){
                             Matrix matrix1 = new Matrix(myMatrix1.getNum());
                             Matrix ans = matrix1.minus(new Matrix(myMatrix2.getNum()));
-                            MyMatrix myAns = new MyMatrix(myMatrix1.getRow(), myMatrix1.getColumn(), ans.getArray(), "");
+                            currentMatrix = new MyMatrix(myMatrix1.getRow(), myMatrix1.getColumn(), ans.getArray(), "");
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("MyMatrix", myAns);
+                            bundle.putSerializable("MyMatrix", currentMatrix);
                             currentFragment = new MatrixFragment();
                             currentFragment.setArguments(bundle);
                             getFragmentManager().beginTransaction().replace(R.id.fragment_place, currentFragment).commit();

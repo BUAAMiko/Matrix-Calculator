@@ -3,8 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="Add new Matrix"
         android:id="@+id/addMatrix"/>
-    <item android:title="Edit Matrix"
-        android:id="@+id/editMatrix"/>
     <item android:title="Delete Matrix"
         android:id="@+id/deleteMatrix"/>
     <item android:title="Help"

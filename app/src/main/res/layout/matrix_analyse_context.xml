@@ -92,7 +92,6 @@
                 android:id="@+id/inverse_matrix"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
                 android:background="@drawable/matrix_background"/>
         </LinearLayout>
 
@@ -116,7 +115,6 @@
                 android:id="@+id/cafactor_matrix_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
                 android:background="@drawable/matrix_background"/>
         </LinearLayout>
     </LinearLayout>
